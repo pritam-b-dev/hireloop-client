@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-// HeroUI v3 এর শুধুমাত্র প্রধান দুটি উপাদান যা ১০০% কাজ করবে
+
 import { Button, Link } from "@heroui/react";
 
 export default function NavBar() {
@@ -14,19 +14,17 @@ export default function NavBar() {
     <div className="fixed top-5 left-0 right-0 z-50 flex justify-center w-full px-4">
       {/* মেইন নেভবার কন্টেইনার */}
       <div className="w-full max-w-6xl bg-[#222222] border border-zinc-800/60 shadow-2xl backdrop-blur-md rounded-[20px] h-16 flex items-center justify-between px-6 relative">
-        {/* ১. বামপাশে: লোগো (আপনার কাস্টম লোগো এখানে বসিয়ে দেবেন) */}
+        {/* ১. বামপাশে: লোগো  */}
         <div className="flex items-center">
           <Link
             href="/"
             className="text-2xl font-bold tracking-tight text-white flex items-center"
           >
-            {/* আপনার লোগো ইমেজ বা আইকন এখানে দিন, আমি জাস্ট টেক্সট রাখলাম */}
+            {/* লোগো ইমেজ বা আইকন  */}
             <span className="text-[#22a6f2]">hire</span>
             <span className="text-[#f35c23]">Loop</span>
           </Link>
         </div>
-
-        {/* মাঝখানটা আপনার রিকোয়ারমেন্ট অনুযায়ী একদম ফাঁকা থাকবে */}
 
         {/* ২. ডানপাশে (DESKTOP LAYOUT): লিংক, ডিভাইডার এবং বাটন */}
         <div className="hidden md:flex items-center gap-8">
@@ -40,7 +38,7 @@ export default function NavBar() {
             </Link>
           ))}
 
-          {/* ছবির মতো এক্সাক্ট স্লিম ভার্টিক্যাল ডিভাইডার লাইন */}
+          {/* ভার্টিক্যাল ডিভাইডার লাইন */}
           <div className="w-px h-5 bg-zinc-600"></div>
 
           <Link
