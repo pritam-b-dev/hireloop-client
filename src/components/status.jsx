@@ -92,14 +92,14 @@ export default function Status() {
     {
       icon: <SatisfactionIcon />,
       value: "97%",
-      label: "Satisfaction Rate", // স্পেলিং মিস্টেক ঠিক করে দেওয়া হয়েছে (Satisfication -> Satisfaction)
+      label: "Satisfaction Rate",
     },
   ];
 
   return (
-    // সম্পূর্ণ কম্পোনেন্টটি ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট রাখা হয়েছে
+    // ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট
     <div className="w-full bg-transparent mb-20 flex flex-col items-center justify-center px-4">
-      {/* ১. স্ট্যাটাস সেকশনের মেইন হেডিং শিরোনাম */}
+      {/* ১. স্ট্যাটাস সেকশনের মেইন হেডিং  */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-zinc-200 tracking-tight text-center max-w-3xl leading-relaxed">
         Assisting over{" "}
         <span className="text-white font-bold">15,000 job seekers</span> find

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-// HeroUI v3 এর নিরাপদ মডিউল
+
 import { Button } from "@heroui/react";
 
 // ব্যানার ডিজাইনের জন্য প্রয়োজনীয় কাস্টম আইকনসমূহ (SVGs)
@@ -68,8 +68,8 @@ export default function Banner() {
   ];
 
   return (
-    // আপনার রিকোয়ারমেন্ট অনুযায়ী ব্যাকগ্রাউন্ড সম্পূর্ণ transparent রাখা হয়েছে
-    // pt-36 দেওয়া হয়েছে যাতে ফিক্সড নেভবারের নিচে কন্টেন্ট সুন্দর স্পেসিং পায়
+    // ব্যাকগ্রাউন্ড  transparent
+
     <div className="w-full bg-transparent mt-40 flex flex-col items-center justify-center text-center px-4">
       {/* ১. টপ ক্যাপসুল ব্যাজ (50,000+ New Jobs) */}
       <div className="inline-flex items-center bg-[#18181c]/60 border border-zinc-800/80 px-4 py-2 rounded-full backdrop-blur-sm shadow-xl">
@@ -80,7 +80,7 @@ export default function Banner() {
         </span>
       </div>
 
-      {/* ২. মেইন বড় হেডিং */}
+      {/* ২. মেইন হেডিং */}
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight mt-8 max-w-4xl leading-[1.15]">
         Find Your Dream Job Today
       </h1>
@@ -91,7 +91,7 @@ export default function Banner() {
         thousands of curated opportunities and land your next role — faster.
       </p>
 
-      {/* ৪. সার্চ বার কন্টেইনার (ইমেজের মতো হুবহু গ্লসি ডার্ক বার) */}
+      {/* ৪. সার্চ বার কন্টেইনার  */}
       <div className="w-full max-w-3xl mt-10 bg-[#121214]/80 border border-zinc-850/80 rounded-2xl md:rounded-full p-2.5 flex flex-col md:flex-row items-center shadow-2xl backdrop-blur-md gap-3 md:gap-0">
         {/* জব টাইটেল ইনপুট */}
         <div className="flex items-center w-full flex-1 px-4 py-2 md:py-0">
@@ -116,7 +116,7 @@ export default function Banner() {
           />
         </div>
 
-        {/* সার্চ বাটন (ইমেজের মতো ব্রাইট পার্পল-ব্লু শেড) */}
+        {/* সার্চ বাটন  */}
         <Button
           isIconOnly
           className="w-full md:w-12 h-12 bg-[#4f46e5] hover:bg-[#4338ca] text-white rounded-xl md:rounded-full shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center shrink-0"

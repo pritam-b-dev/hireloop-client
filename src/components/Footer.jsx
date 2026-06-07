@@ -18,7 +18,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* ডান পাশের লিংক সেকশনগুলো */}
+          {/* ডান পাশের লিংক সেকশন */}
           <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
             {/* Product Column */}
             <div className="space-y-4">
@@ -94,7 +94,7 @@ export default function Footer() {
 
         {/* বটম সেকশন: সোশ্যাল আইকন এবং কপিরাইট */}
         <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row justify-between items-center gap-6">
-          {/* সোশ্যাল মিডিয়া আইকনসমূহ (Gravity UI Icons) */}
+          {/* সোশ্যাল মিডিয়া আইকন */}
           <div className="flex items-center space-x-3">
             {/* ফেসবুক আইকন */}
             <a
@@ -104,7 +104,7 @@ export default function Footer() {
               <LogoFacebook width={18} height={18} />
             </a>
 
-            {/* মাঝের কাস্টম আইকন (Gravity UI-এর Radio আইকনটি ছবির গোল ডিজাইনের সাথে দারুণ ম্যাচ করে) */}
+            {/* মাঝের কাস্টম আইকন  */}
             <a
               href="#"
               className="w-10 h-10 flex items-center justify-center bg-indigo-950/60 rounded-lg text-indigo-400 hover:bg-indigo-900/80 transition border border-indigo-900/50"
