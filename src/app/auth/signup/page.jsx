@@ -1,15 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Input,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  Link,
-  Spinner,
-} from "@heroui/react";
+import { Input, Button, Card, Link, Spinner } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { signUp } from "../../../lib/auth-client";
 import { useRouter } from "next/navigation";
@@ -24,6 +16,7 @@ export default function SignUpPage() {
 
   const [formData, setFormData] = useState({
     name: "",
+    image: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -55,6 +48,7 @@ export default function SignUpPage() {
         email: formData.email,
         password: formData.password,
         name: formData.name,
+        image: formData.image,
       });
 
       if (error) {
@@ -63,12 +57,14 @@ export default function SignUpPage() {
         setLoading(false);
         return;
       }
-      toast.success("Account created successfully!");
+      if (data) {
+        toast.success(`Welcome ${data.user.name}! Account created.`);
 
-      setTimeout(() => {
-        router.push("/");
-        router.refresh(); // সেশন আপডেট করার জন্য রিফ্রেশ করা
-      }, 2000);
+        setTimeout(() => {
+          router.push("/");
+          router.refresh();
+        }, 2000);
+      }
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong. Try again later");
@@ -81,7 +77,7 @@ export default function SignUpPage() {
       <Card className="w-full max-w-md p-2 shadow-lg">
         <div className="flex flex-col items-center gap-1 pb-4 pt-4 text-center">
           <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
-          <p className="text-small text-default-500">ENter your information</p>
+          <p className="text-small text-default-500">Enter your information</p>
         </div>
 
         <div className="flex flex-col gap-4 pt-2">
@@ -94,6 +90,14 @@ export default function SignUpPage() {
               type="text"
               variant="bordered"
               value={formData.name}
+              onChange={handleChange}
+            />
+            <Input
+              label="Profile Image URL"
+              name="image"
+              placeholder="https://example.com/your-photo.jpg"
+              type="url"
+              value={formData.image}
               onChange={handleChange}
             />
 
@@ -162,7 +166,7 @@ export default function SignUpPage() {
 
             <p className="text-center text-small text-default-500 mt-2">
               Already have an account?{" "}
-              <Link href="/login" size="sm">
+              <Link href="/auth/signin" size="sm">
                 Sign In Here!
               </Link>
             </p>
