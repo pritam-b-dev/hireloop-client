@@ -1,5 +1,5 @@
-import Banner from "../components/Banner";
-import Status from "../components/status";
+import Banner from "../../components/Banner";
+import Status from "../../components/status";
 
 export default function Home() {
   return (

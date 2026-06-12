@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Button, Link, Avatar, Spinner } from "@heroui/react";
 import { Bars, Xmark } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
-import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 
@@ -13,7 +12,20 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   // সাইন-আউটের সময় লোডিং দেখানোর জন্য নতুন স্টেট
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const menuItems = ["Browse Jobs", "Company", "Pricing"];
+  const menuItems = [
+    {
+      label: "Browse Jobs",
+      href: "/jobs",
+    },
+    {
+      label: "Company",
+      href: "/company",
+    },
+    {
+      label: "Pricing",
+      href: "/pricing",
+    },
+  ];
 
   const { data: session, isPending } = authClient.useSession();
 
@@ -23,7 +35,7 @@ export default function NavBar() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/auth/signin");
+          router.push("/signin");
           router.refresh();
         },
       },
@@ -51,10 +63,10 @@ export default function NavBar() {
           {menuItems.map((item, index) => (
             <Link
               key={index}
-              href="#"
+              href={item.href}
               className="text-zinc-300 hover:text-white text-[15px] font-medium transition-colors"
             >
-              {item}
+              {item.label}
             </Link>
           ))}
 
@@ -109,18 +121,17 @@ export default function NavBar() {
             // ৩. চেক করা শেষ এবং ইউজার নিশ্চিতভাবে লগআউট করা থাকলে তবেই বাটন দেখাবে
             <div className="flex items-center gap-4">
               <Link
-                href="/auth/signin"
+                href="/signin"
                 className="text-[#6366f1] hover:text-[#818cf8] text-[15px] font-semibold transition-colors"
               >
                 Sign In
               </Link>
-              <Button
-                as={Link}
-                href="/auth/signup"
+              <Link
+                href="/signup"
                 className="bg-[#4f46e5] hover:bg-[#4338ca] text-white font-medium px-5 h-10 rounded-[12px] text-[15px] transition-all shadow-lg shadow-indigo-600/20"
               >
                 Get Started
-              </Button>
+              </Link>
             </div>
           )}
         </div>
@@ -142,11 +153,11 @@ export default function NavBar() {
             {menuItems.map((item, index) => (
               <Link
                 key={index}
-                href="#"
+                href={item.href}
                 className="text-zinc-300 hover:text-white text-[16px] font-medium py-2 border-b border-zinc-800/40 last:border-none block transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                {item}
+                {item.label}
               </Link>
             ))}
 
@@ -199,20 +210,19 @@ export default function NavBar() {
             ) : (
               <div className="flex flex-col gap-3">
                 <Link
-                  href="/auth/signin"
+                  href="/signin"
                   className="text-[#6366f1] hover:text-[#818cf8] text-[16px] font-semibold py-2 transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   Sign In
                 </Link>
-                <Button
-                  as={Link}
-                  href="/auth/signup"
+                <Link
+                  href="/signup"
                   className="bg-[#4f46e5] hover:bg-[#4338ca] text-white font-medium w-full h-11 rounded-[12px] text-[15px] shadow-lg"
                   onClick={() => setIsOpen(false)}
                 >
                   Get Started
-                </Button>
+                </Link>
               </div>
             )}
           </div>

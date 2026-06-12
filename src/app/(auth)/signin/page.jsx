@@ -1,25 +1,19 @@
 "use client";
-
-import React, { useState } from "react";
-import { Input, Button, Card, Link, Spinner } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
-import { signUp } from "../../../lib/auth-client";
+import { Button, Card, Input, Spinner, Link } from "@heroui/react";
+import React, { useState } from "react";
+import { signIn } from "../../../lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-// import { authClient } from "@/lib/auth-client";
-
-export default function SignUpPage() {
+const SignInPage = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    image: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -34,21 +28,14 @@ export default function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // পাসওয়ার্ড ম্যাচিং চেক
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // Better-Auth এর সাইন-আপ মেথড
-      const { data, error } = await signUp.email({
+      // Better-Auth এর সাইন-ইন মেথড
+      const { data, error } = await signIn.email({
         email: formData.email,
         password: formData.password,
-        name: formData.name,
-        image: formData.image,
+        rememberMe: true,
       });
 
       if (error) {
@@ -58,10 +45,10 @@ export default function SignUpPage() {
         return;
       }
       if (data) {
-        toast.success(`Welcome ${data.user.name}! Account created.`);
+        toast.success(`Welcome ${data.user.name}!`);
 
         setTimeout(() => {
-          router.push("/");
+          window.location.href = "/";
           router.refresh();
         }, 2000);
       }
@@ -71,36 +58,18 @@ export default function SignUpPage() {
       setLoading(false);
     }
   };
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md p-2 shadow-lg">
         <div className="flex flex-col items-center gap-1 pb-4 pt-4 text-center">
-          <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
-          <p className="text-small text-default-500">Enter your information</p>
+          <h1 className="text-2xl font-bold tracking-tight">Sign In</h1>
+          <p className="text-small text-default-500">
+            Enter Email and Password
+          </p>
         </div>
 
         <div className="flex flex-col gap-4 pt-2">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Input
-              required
-              label="Full Name"
-              name="name"
-              placeholder="Enter your name"
-              type="text"
-              variant="bordered"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <Input
-              label="Profile Image URL"
-              name="image"
-              placeholder="https://example.com/your-photo.jpg"
-              type="url"
-              value={formData.image}
-              onChange={handleChange}
-            />
-
             <Input
               required
               label="Email Address"
@@ -144,30 +113,19 @@ export default function SignUpPage() {
               </button>
             </div>
 
-            <Input
-              required
-              label="Confirm password"
-              name="confirmPassword"
-              placeholder="confirm password"
-              variant="bordered"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              type={isVisible ? "text" : "password"}
-            />
-
             <Button
               isDisabled={loading}
               color="primary"
               type="submit"
               className="w-full font-medium"
             >
-              {loading ? <Spinner color="white" size="sm" /> : "Sign Up"}
+              {loading ? <Spinner color="white" size="sm" /> : "Sign In"}
             </Button>
 
             <p className="text-center text-small text-default-500 mt-2">
-              Already have an account?{" "}
-              <Link href="/auth/signin" size="sm">
-                Sign In Here!
+              Create a new account?{" "}
+              <Link href="/signup" size="sm">
+                Click Here!
               </Link>
             </p>
           </form>
@@ -175,4 +133,6 @@ export default function SignUpPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default SignInPage;
