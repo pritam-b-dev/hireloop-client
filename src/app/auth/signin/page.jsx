@@ -48,7 +48,7 @@ const SignInPage = () => {
         toast.success(`Welcome ${data.user.name}!`);
 
         setTimeout(() => {
-          router.push("/");
+          window.location.href = "/";
           router.refresh();
         }, 2000);
       }

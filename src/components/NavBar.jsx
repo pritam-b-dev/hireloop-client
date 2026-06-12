@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button, Link, Avatar, Spinner } from "@heroui/react";
 import { Bars, Xmark } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 
@@ -22,7 +23,7 @@ export default function NavBar() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/");
+          router.push("/auth/signin");
           router.refresh();
         },
       },
@@ -60,22 +61,35 @@ export default function NavBar() {
           <div className="w-px h-5 bg-zinc-600"></div>
 
           {/* === ডেস্কটপ লগইন/প্রোফাইল ও সাইন-আউট === */}
-          {isPending ? (
+          {isPending || session === undefined ? (
+            // ১. যতক্ষণ সেশন চেক করা শেষ না হচ্ছে, ততক্ষণ শুধুই স্পিনার দেখাবে (বাটন লাফাবে না)
             <Spinner size="sm" color="white" />
           ) : session?.user ? (
+            // ২. চেক করা শেষ এবং ইউজার লগইন করা থাকলে প্রোফাইল
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
                 <Avatar
-                  src={session.user.image}
-                  name={session.user.name}
+                  color="secondary"
+                  variant="soft"
                   size="sm"
-                />
+                  className="border border-zinc-700"
+                >
+                  {/* ১. প্রথমে সে এই ছবিটা লোড করার চেষ্টা করবে */}
+                  <Avatar.Image
+                    src={session.user.image || ""}
+                    alt={session.user.name || "User"}
+                  />
+                  {/* ২. ছবি ব্লক হলে বা না থাকলে অটোমেটিক এই নিচের নামের প্রথম অক্ষরটি সুন্দর কালারে ভেসে উঠবে */}
+                  <Avatar.Fallback>
+                    {session.user.name
+                      ? session.user.name.charAt(0).toUpperCase()
+                      : "U"}
+                  </Avatar.Fallback>
+                </Avatar>
                 <span className="text-white font-medium text-[15px]">
-                  {session.user.name}
+                  {session?.user.name}
                 </span>
               </div>
-
-              {/* ডেস্কটপ সাইন-আউট বাটন */}
               <Button
                 size="sm"
                 color="danger"
@@ -92,6 +106,7 @@ export default function NavBar() {
               </Button>
             </div>
           ) : (
+            // ৩. চেক করা শেষ এবং ইউজার নিশ্চিতভাবে লগআউট করা থাকলে তবেই বাটন দেখাবে
             <div className="flex items-center gap-4">
               <Link
                 href="/auth/signin"
@@ -138,16 +153,29 @@ export default function NavBar() {
             <div className="h-[1px] w-full bg-zinc-800/60 my-1"></div>
 
             {/* === মোবাইল লগইন/প্রোফাইল ও সাইন-আউট === */}
-            {isPending ? (
+            {isPending || session === undefined ? (
               <Spinner size="sm" color="white" className="self-start" />
             ) : session?.user ? (
               <div className="flex flex-col gap-4 py-2">
                 <div className="flex items-center gap-3">
                   <Avatar
-                    src={session.user.image}
-                    name={session.user.name}
-                    size="md"
-                  />
+                    color="secondary"
+                    variant="soft"
+                    size="sm"
+                    className="border border-zinc-700"
+                  >
+                    {/* ১. প্রথমে সে এই ছবিটা লোড করার চেষ্টা করবে */}
+                    <Avatar.Image
+                      src={session.user.image || ""}
+                      alt={session.user.name || "User"}
+                    />
+                    {/* ২. ছবি ব্লক হলে বা না থাকলে অটোমেটিক এই নিচের নামের প্রথম অক্ষরটি সুন্দর কালারে ভেসে উঠবে */}
+                    <Avatar.Fallback>
+                      {session.user.name
+                        ? session.user.name.charAt(0).toUpperCase()
+                        : "U"}
+                    </Avatar.Fallback>
+                  </Avatar>
                   <span className="text-white font-semibold text-[16px]">
                     {session.user.name}
                   </span>
