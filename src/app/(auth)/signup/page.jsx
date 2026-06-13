@@ -158,7 +158,7 @@ export default function SignUpPage() {
 
             {/* role based control  */}
             <div className="flex flex-col gap-4">
-              <Label>Select</Label>
+              <Label>Select account type</Label>
               <RadioGroup
                 defaultValue="seeker"
                 name="plan-orientation"
