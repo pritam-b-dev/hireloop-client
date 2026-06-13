@@ -74,8 +74,8 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex mt-20 min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md p-2 shadow-lg">
+    <div className="w-full p-4 flex justify-center">
+      <Card className="w-full max-w-lg p-6 shadow-lg">
         <div className="flex flex-col items-center gap-1 pb-4 pt-4 text-center">
           <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
           <p className="text-small text-default-500">Enter your information</p>
@@ -158,28 +158,28 @@ export default function SignUpPage() {
 
             {/* role based control  */}
             <div className="flex flex-col gap-4">
-              <Label>Subscription plan</Label>
+              <Label>Select</Label>
               <RadioGroup
-                defaultValue="pro"
+                defaultValue="seeker"
                 name="plan-orientation"
                 orientation="horizontal"
               >
-                <Radio value="starter">
+                <Radio value="seeker">
                   <Radio.Control>
                     <Radio.Indicator />
                   </Radio.Control>
                   <Radio.Content>
-                    <Label>Starter</Label>
-                    <Description>For side projects</Description>
+                    <Label>Job Seeker</Label>
+                    <Description>Get a job</Description>
                   </Radio.Content>
                 </Radio>
-                <Radio value="pro">
+                <Radio value="recruiter">
                   <Radio.Control>
                     <Radio.Indicator />
                   </Radio.Control>
                   <Radio.Content>
-                    <Label>Pro</Label>
-                    <Description>Advanced reporting</Description>
+                    <Label>Recruiter</Label>
+                    <Description>Hire someone</Description>
                   </Radio.Content>
                 </Radio>
               </RadioGroup>

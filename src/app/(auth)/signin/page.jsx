@@ -59,8 +59,8 @@ const SignInPage = () => {
     }
   };
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md p-2 shadow-lg">
+    <div className="w-full p-4 flex justify-center">
+      <Card className="w-full max-w-lg p-6 shadow-lg">
         <div className="flex flex-col items-center gap-1 pb-4 pt-4 text-center">
           <h1 className="text-2xl font-bold tracking-tight">Sign In</h1>
           <p className="text-small text-default-500">
