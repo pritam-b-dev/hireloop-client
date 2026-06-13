@@ -21,6 +21,7 @@ export default function SignUpPage() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "",
   });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -50,6 +51,8 @@ export default function SignUpPage() {
         password: formData.password,
         name: formData.name,
         image: formData.image,
+        role: formData.role,
+        autoSignIn: false, //অটো সাইন বন্ধ করার জন্য।
       });
 
       if (error) {
@@ -62,7 +65,7 @@ export default function SignUpPage() {
         toast.success(`Welcome ${data.user.name}! Account created.`);
 
         setTimeout(() => {
-          router.push("/");
+          router.push("/signin");
           router.refresh();
         }, 2000);
       }
@@ -160,9 +163,11 @@ export default function SignUpPage() {
             <div className="flex flex-col gap-4">
               <Label>Select account type</Label>
               <RadioGroup
-                defaultValue="seeker"
-                name="plan-orientation"
+                value={formData.role}
+                name="role"
                 orientation="horizontal"
+                // এখানে e এর বদলে সরাসরি string ভ্যালু আসবে, তাই ইনলাইন ফাংশন ব্যবহার করতে হবে
+                onChange={(value) => setFormData({ ...formData, role: value })}
               >
                 <Radio value="seeker">
                   <Radio.Control>
