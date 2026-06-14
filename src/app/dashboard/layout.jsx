@@ -6,7 +6,9 @@ const DashBoardLayout = ({ children }) => {
     <div className="flex min-h-screen">
       <DashBoardSideBar />
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 overflow-x-hidden overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 };

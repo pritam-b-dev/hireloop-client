@@ -41,7 +41,6 @@ export function DashBoardSideBar() {
       <Drawer>
         <Button className="lg:hidden" variant="secondary">
           <LayoutSplitSideContentLeft />
-          Menu
         </Button>
         <Drawer.Backdrop>
           <Drawer.Content placement="left">
