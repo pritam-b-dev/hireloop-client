@@ -40,7 +40,7 @@ const RecruiterDashBoardPage = () => {
       {/* page.jsx এর ভেতরে স্ট্যাটাসের ঠিক নিচে বসবে: */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6 p-4 md:p-6 bg-[#09090b]">
         {/* বাম পাশের বড় অংশ: টেবিল সেকশন (৩ ভাগের ২ ভাগ জায়গা নেবে) */}
-        <div className="xl:col-span-2">
+        <div className="lg:col-span-2">
           <RecentApplications />
         </div>
 
