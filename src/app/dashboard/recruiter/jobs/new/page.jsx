@@ -28,6 +28,7 @@ export default function PostJobForm() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setIsLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -44,7 +45,7 @@ export default function PostJobForm() {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Published Job Data:", finalJobData);
       alert("Job Posted Successfully! (v3 Compliant)");
-      e.currentTarget.reset();
+      form.reset();
     } catch (error) {
       console.error("Error:", error);
       alert("Something went wrong!");
