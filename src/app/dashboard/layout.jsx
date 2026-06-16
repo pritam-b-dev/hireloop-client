@@ -1,5 +1,6 @@
 import React from "react";
 import { DashBoardSideBar } from "../../components/dashboard/DashBoardSideBar";
+import { Toast } from "@heroui/react";
 
 const DashBoardLayout = ({ children }) => {
   return (
@@ -9,6 +10,7 @@ const DashBoardLayout = ({ children }) => {
       <main className="flex-1 overflow-x-hidden overflow-y-auto">
         {children}
       </main>
+      <Toast.Provider placement="top" />
     </div>
   );
 };

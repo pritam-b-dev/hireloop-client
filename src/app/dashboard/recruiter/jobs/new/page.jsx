@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-// ✅ শুধুমাত্র ভেরিফাইড HeroUI v3 কম্পোনেন্ট, কোনো আন-অফিসিয়াল বা ব্রোকেন ইমপোর্ট নেই!
+
 import {
   Form,
   Fieldset,
@@ -12,11 +12,16 @@ import {
   TextArea,
   Button,
   FieldError,
+  toast,
+  Spinner,
 } from "@heroui/react";
 
 import { Briefcase, Pin, Check, CircleInfo } from "@gravity-ui/icons";
+import { createJob } from "../../../../../lib/actions/jobs";
+import { useRouter } from "next/navigation";
 
 export default function PostJobForm() {
+  const router = useRouter();
   const [isRemote, setIsRemote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,24 +36,31 @@ export default function PostJobForm() {
     const form = e.currentTarget;
     setIsLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const finalJobData = {};
-    formData.forEach((value, key) => {
-      finalJobData[key] = value.toString();
-    });
+    const formData = new FormData(form);
 
-    finalJobData.isRemote = isRemote;
-    finalJobData.companyId = recruiterCompany.id;
-    finalJobData.status = "active";
+    const finalJobData = {
+      ...Object.fromEntries(formData),
+      isRemote: isRemote,
+      companyId: recruiterCompany.id,
+      status: "active",
+    };
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Published Job Data:", finalJobData);
-      alert("Job Posted Successfully! (v3 Compliant)");
-      form.reset();
+      //সরাসরি fetch-এর বদলে  /lib/action/jobs.js থেকে কল করা হলো
+      const result = await createJob(finalJobData);
+
+      // যেহেতু action/jobs.js থেকে res.json() রিটার্ন করা হচ্ছে, তাই result এ আমরা তা পেয়ে যাচ্ছি।
+      if (result.insertedId) {
+        console.log("Published Job Data:", result);
+        toast.success("Job Posted Successfully!");
+        form.reset();
+        router.push("/dashboard/recruiter");
+      } else {
+        toast.warning("Failed to post job. Server error.");
+      }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong!");
+      toast.warning("Something went wrong!");
     } finally {
       setIsLoading(false);
     }
@@ -118,7 +130,7 @@ export default function PostJobForm() {
               <FieldError className="text-red-500 text-xs mt-1" />
             </TextField>
 
-            {/* নেটিভ HTML সিলেক্ট (ক্র্যাশ-প্রুফ) */}
+            {/* নেটিভ HTML সিলেক্ট */}
             <div className="flex flex-col">
               <label className={labelClass}>
                 Job Category <span className="text-red-500">*</span>
@@ -196,7 +208,7 @@ export default function PostJobForm() {
             </div>
           </Fieldset.Group>
 
-          {/* Location / Remote (Tailwind Switch) */}
+          {/* Location / Remote (Switch) */}
           <div className="mt-6 p-6 bg-zinc-900/30 border border-zinc-800 rounded-2xl flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-zinc-300 font-medium">
@@ -290,9 +302,10 @@ export default function PostJobForm() {
           <Button
             type="submit"
             isLoading={isLoading}
+            spinner={<Spinner color="current" size="sm" />}
             className="bg-white text-black font-bold hover:bg-zinc-200 px-10 rounded-xl h-10"
           >
-            {isLoading ? "Posting..." : "Post Job Now"}
+            {isLoading ? null : "Post Job Now"}
           </Button>
         </Fieldset.Actions>
       </Form>
