@@ -54,7 +54,7 @@ export default function PostJobForm() {
         console.log("Published Job Data:", result);
         toast.success("Job Posted Successfully!");
         form.reset();
-        router.push("/dashboard/recruiter");
+        router.push("/dashboard/recruiter/jobs");
       } else {
         toast.warning("Failed to post job. Server error.");
       }

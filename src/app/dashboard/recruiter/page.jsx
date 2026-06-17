@@ -5,11 +5,16 @@ import { useSession } from "../../../lib/auth-client";
 import StatsGrid from "../../../components/dashboard/StatsGrid"; // গ্রিড কম্পোনেন্ট ইম্পোর্ট করো
 import RecentApplications from "../../../components/dashboard/RecentApplications";
 import MyTopCompanies from "../../../components/dashboard/MyTopCompanies";
+import { Spinner } from "@heroui/react";
 
 const RecruiterDashBoardPage = () => {
   const { data: session, isPending } = useSession();
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-[80vh] w-full items-center justify-center bg-[#09090b]">
+        <Spinner label="Loading dashboard..." color="primary" size="lg" />
+      </div>
+    );
   }
   const user = session?.user;
   console.log("data from recruiter page:", session);
