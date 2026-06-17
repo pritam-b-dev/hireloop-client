@@ -237,7 +237,7 @@ A form divided into sections:
 - Location (City, Country) or Remote toggle
 - Application Deadline
 
-**Job Description:**4
+**Job Description:**
 
 - Responsibilities (rich text or textarea)
 - Requirements (rich text or textarea)

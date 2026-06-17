@@ -18,7 +18,7 @@ export default function ManageJobsTable() {
         const data = await getCompanyJobs(companyId);
         setJobsData(data);
       } catch (error) {
-        console.error("Jobs লোড করতে সমস্যা হয়েছে:", error);
+        console.error("Problem loading jobs:", error);
       } finally {
         setIsLoading(false);
       }
