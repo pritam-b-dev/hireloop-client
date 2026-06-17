@@ -46,7 +46,7 @@ export default function PostJobForm() {
     };
 
     try {
-      //সরাসরি fetch-এর বদলে  /lib/action/jobs.js থেকে কল করা হলো
+      //সরাসরি fetch-এর বদলে  /lib/action/jobs.js থেকে কল করা হলো এবং সেখানে POST method দিয়ে ডাটা চলে গেল ব্যাকএন্ড হয়ে ডাটাবেজে।
       const result = await createJob(finalJobData);
 
       // যেহেতু action/jobs.js থেকে res.json() রিটার্ন করা হচ্ছে, তাই result এ আমরা তা পেয়ে যাচ্ছি।
