@@ -29,7 +29,7 @@ import {
 import Image from "next/image";
 import { createCompany } from "../../../../lib/actions/companies";
 
-export default function CompanyProfile() {
+export default function CompanyProfile({ recruiter }) {
   //  ১. কোম্পানি লিস্ট এবং ফর্ম স্টেট
   const [companies, setCompanies] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -97,6 +97,7 @@ export default function CompanyProfile() {
     const finalCompanyData = {
       ...rawCompanyData,
       logo: logoUrl || "https://placehold.co/150?text=No+Logo",
+      recruiterId: recruiter.id,
     };
 
     try {
