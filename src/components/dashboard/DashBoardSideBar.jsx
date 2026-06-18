@@ -19,8 +19,8 @@ export function DashBoardSideBar() {
       href: "/dashboard/recruiter/jobs/new",
       label: "Post A Job",
     },
+    { icon: Person, href: "/dashboard/recruiter/company", label: "Companies" },
     { icon: Envelope, href: "/dashboard/recruiter", label: "Messages" },
-    { icon: Person, href: "/dashboard/recruiter", label: "Profile" },
     { icon: Gear, href: "/dashboard/recruiter", label: "Settings" },
   ];
 
