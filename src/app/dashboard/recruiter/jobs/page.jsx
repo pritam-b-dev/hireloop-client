@@ -1,31 +1,23 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { Table, Chip, Button, Spinner } from "@heroui/react";
+import React from "react";
+import { Table, Chip, Button } from "@heroui/react";
 import { Eye, Pencil, TrashBin } from "@gravity-ui/icons";
 import { getCompanyJobs } from "../../../../lib/api/jobs";
+import { getLoggedInRecruiterCompany } from "../../../../lib/api/companies";
 
-export default function ManageJobsTable() {
-  const [jobsData, setJobsData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+export default async function ManageJobsTable() {
+  let jobsData = [];
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setIsLoading(true);
+  try {
+    //  ২. সরাসরি লগইন থাকা কোম্পানির ডাটা আনা হলো
+    const company = await getLoggedInRecruiterCompany();
 
-        const companyId = "comp_123";
-        const data = await getCompanyJobs(companyId);
-        setJobsData(data);
-      } catch (error) {
-        console.error("Problem loading jobs:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, []);
+    // কোম্পানি পাওয়া গেলে তার আন্ডারে থাকা সব জবস নিয়ে আসা হলো
+    if (company?._id) {
+      jobsData = await getCompanyJobs(company._id);
+    }
+  } catch (error) {
+    console.error("Problem loading jobs on server:", error);
+  }
 
   return (
     <div className="w-full">
@@ -58,20 +50,8 @@ export default function ManageJobsTable() {
             </Table.Header>
 
             <Table.Body>
-              {/* ডাটা লোড হওয়ার সময় একটি সুন্দর স্পিনার দেখাবে */}
-              {isLoading ? (
-                <Table.Row>
-                  <Table.Cell colSpan={5} className="text-center py-8">
-                    <div className="flex justify-center items-center w-full">
-                      <Spinner color="white" size="sm" />
-                      <span className="ml-2 text-zinc-400 text-sm">
-                        Loading jobs...
-                      </span>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              ) : jobsData.length === 0 ? (
-                // যদি কোনো জব পোস্ট করা না থাকে
+              {/*  ৩. ডাটা না থাকলে এই মেসেজটি দেখাবে */}
+              {jobsData.length === 0 ? (
                 <Table.Row>
                   <Table.Cell
                     colSpan={5}
@@ -81,7 +61,7 @@ export default function ManageJobsTable() {
                   </Table.Cell>
                 </Table.Row>
               ) : (
-                // ডাটা চলে আসলে ম্যাপ হয়ে লুপ চলবে
+                // ডাটা থাকলে ম্যাপ হয়ে লুপ চলবে
                 jobsData.map((job) => (
                   <Table.Row
                     key={job._id}
