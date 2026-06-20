@@ -1,5 +1,5 @@
 "use client";
-
+//এই api,  createCompany(finalCompanyData) সব কোম্পানীর ও তার রিক্রুটারের তথ্য আছে।
 import React, { useState } from "react";
 import {
   Form,
@@ -29,9 +29,11 @@ import {
 import Image from "next/image";
 import { createCompany } from "../../../../lib/actions/companies";
 
-export default function CompanyProfile({ recruiter }) {
+export default function CompanyProfile({ recruiter, recruiterCompany }) {
   //  ১. কোম্পানি লিস্ট এবং ফর্ম স্টেট
-  const [companies, setCompanies] = useState([]);
+  const [companies, setCompanies] = useState(
+    recruiterCompany ? [recruiterCompany] : [],
+  );
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -109,8 +111,9 @@ export default function CompanyProfile({ recruiter }) {
         );
         toast.success("Company profile updated successfully!");
       } else {
+        //এই api তে createCompany(finalCompanyData) সব কোম্পানীর ও তার রিক্রুটারের তথ্য আছে।
         const responseData = await createCompany(finalCompanyData);
-        const savedCompany = responseData.data || responseData;
+        const savedCompany = responseData?.data || responseData;
 
         setCompanies([
           ...companies,
@@ -410,7 +413,7 @@ export default function CompanyProfile({ recruiter }) {
         <div className="space-y-4">
           {companies.map((comp) => (
             <Card
-              key={comp.id}
+              key={comp._id}
               className="bg-[#121212] border border-[#222222] rounded-2xl p-6 shadow-none space-y-4"
             >
               <div className="flex justify-between items-start gap-4">

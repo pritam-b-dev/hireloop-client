@@ -1,13 +1,26 @@
-"use server";
+"use server"; // এই ফাইল সবসময় server-এ চলবে, browser-এ না
 
+// backend-এর base URL — .env থেকে আসে
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+// ============যেকোনো GET request-এর জন্য reusable helper================
+export const serverFetch = async (path) => {
+  const res = await fetch(`${baseUrl}${path}`);
+  return res.json();
+};
+
+// ============যেকোনো POST request-এর জন্য reusable helper================
+
+// path → "/api/companies" বা "/api/jobs" বা যেকোনো endpoint
+// data → যে object টা body-তে পাঠাবো
+
 export const serverMutation = async (path, data) => {
   const res = await fetch(`${baseUrl}${path}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", // backend-কে জানাচ্ছি body-তে JSON আসছে
     },
-    body: JSON.stringify(data), //backend এ req.body তে পেয়ে যাবে, যা app.use(express.json()) দিয়ে পার্স করেছি।
+    body: JSON.stringify(data), // JS object → JSON string, backend req.body-তে পাবে
   });
-  return res.json();
+  return res.json(); // response টাকে আবার JS object বানিয়ে return
 };
