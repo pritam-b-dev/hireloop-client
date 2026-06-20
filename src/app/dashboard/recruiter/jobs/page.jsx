@@ -13,10 +13,12 @@ export default async function ManageJobsTable() {
 
     // কোম্পানি পাওয়া গেলে তার আন্ডারে থাকা সব জবস নিয়ে আসা হলো
     if (company?._id) {
-      jobsData = await getCompanyJobs(company._id);
+      const response = await getCompanyJobs(company._id);
+      jobsData = Array.isArray(response) ? response : [];
     }
   } catch (error) {
     console.error("Problem loading jobs on server:", error);
+    jobsData = [];
   }
 
   return (

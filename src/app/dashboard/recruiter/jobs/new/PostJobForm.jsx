@@ -73,6 +73,19 @@ export default function PostJobForm({ company }) {
   const selectClass =
     "bg-[#222222] border border-zinc-700/50 hover:border-zinc-600 rounded-xl text-white outline-none focus:border-zinc-500 transition-colors w-full h-10 px-3 cursor-pointer";
 
+  if (!recruiterCompany?._id) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
+        <h3 className="text-xl font-semibold text-white mb-2">
+          No Company Profile Found
+        </h3>
+        <p className="text-zinc-400 max-w-md text-sm">
+          Creat a company profile first to post a job!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl w-full mx-auto bg-[#18181B] rounded-2xl border border-zinc-800/50 overflow-hidden text-white font-sans shadow-2xl my-10">
       {/* হেডার */}

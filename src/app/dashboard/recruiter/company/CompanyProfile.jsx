@@ -32,7 +32,7 @@ import { createCompany } from "../../../../lib/actions/companies";
 export default function CompanyProfile({ recruiter, recruiterCompany }) {
   //  ১. কোম্পানি লিস্ট এবং ফর্ম স্টেট
   const [companies, setCompanies] = useState(
-    recruiterCompany ? [recruiterCompany] : [],
+    recruiterCompany?._id || recruiterCompany?.id ? [recruiterCompany] : [],
   );
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
@@ -172,7 +172,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
 
   // ==================== ভিউ রেন্ডারিং লজিক ====================
 
-  if (isLoading && !isFormOpen && companies.length === 0) {
+  if (isLoading && !isFormOpen) {
     return (
       <div className="flex h-[80vh] w-full items-center justify-center bg-[#09090b]">
         <Spinner
@@ -413,7 +413,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
         <div className="space-y-4">
           {companies.map((comp) => (
             <Card
-              key={comp._id}
+              key={comp._id || comp.id}
               className="bg-[#121212] border border-[#222222] rounded-2xl p-6 shadow-none space-y-4"
             >
               <div className="flex justify-between items-start gap-4">
@@ -463,7 +463,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
                     <Pencil className="w-3.5 h-3.5" /> Edit
                   </Button>
                   <Button
-                    onClick={() => handleDeleteClick(comp.id)}
+                    onClick={() => handleDeleteClick(comp._id || comp.id)}
                     size="sm"
                     variant="flat"
                     color="danger"
