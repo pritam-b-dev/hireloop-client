@@ -1,11 +1,10 @@
 import React from "react";
 
 export default function JobCard({ job = {} }) {
-  // স্যালারি কারেন্সি সিম্বল নির্ধারণ (যেমন: USD হলে $, EUR হলে €)
   const currencySymbol = job?.currency?.toLowerCase() === "usd" ? "$" : "৳";
 
   const formatSalary = (amount) => {
-    if (!amount) return "0"; // স্যালারি না থাকলে সেফটি রিটার্ন
+    if (!amount) return "0";
     const num = Number(amount);
     return num >= 1000 ? `${num / 1000}k` : amount;
   };

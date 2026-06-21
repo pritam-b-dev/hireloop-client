@@ -48,7 +48,6 @@ export default function JobFilterBar({ onFilterChange }) {
         </div>
       </TextField>
 
-      {/* ২. ফিল্টার ড্রপডাউন গ্রুপ (আপনার ডাটার সাথে হুবহু মিল রেখে ২টা ড্রপডাউন) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto">
         {/* ফিল্টার ১: Job Type (full-time, part-time, contract) */}
         <Select

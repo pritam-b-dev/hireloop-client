@@ -34,7 +34,7 @@ export default function JobContainer({ initialJobs }) {
       {/* ফিল্টার বার */}
       <JobFilterBar onFilterChange={setFilters} />
 
-      {/* জবের লিস্ট রেন্ডার — এবার আপনার আসল ডিজাইন দেখা যাবে */}
+      {/* জবের লিস্ট রেন্ডার */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 justify-items-center">
         {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
