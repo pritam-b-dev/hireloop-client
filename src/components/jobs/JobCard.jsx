@@ -11,17 +11,36 @@ export default function JobCard({ job = {} }) {
 
   return (
     <div className="w-full max-w-md bg-[#121212] border border-zinc-800/60 rounded-3xl p-6 md:p-8 flex flex-col justify-between hover:border-zinc-700 transition-all duration-300">
-      {/* ১. হেডার পার্ট: টাইটেল ও ডেসক্রিপশন */}
       <div>
+        {/* 🆕 কোম্পানী লোগো এবং নাম */}
+        {(job.companyName || job.companyLogo) && (
+          <div className="flex items-center gap-2 mb-4">
+            {job.companyLogo && (
+              <img
+                src={job.companyLogo}
+                alt={job.companyName || "Company Logo"}
+                className="w-6 h-6 rounded-lg object-contain bg-zinc-800/30 p-0.5"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }} // কোনো কারণে লোগো ক্র্যাশ করলে হাইড হয়ে যাবে
+              />
+            )}
+            <span className="text-zinc-400 text-xs md:text-sm font-medium tracking-wide">
+              {job.companyName}
+            </span>
+          </div>
+        )}
+
         <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight mb-3">
           {job.jobTitle || "Frontend Developer"}
         </h2>
+
         <p className="text-zinc-400 text-sm md:text-base font-light leading-relaxed mb-6 line-clamp-2">
           {job.responsibilities ||
             "Showcase your commitment to diversity and inclusion by highlighting initiatives"}
         </p>
 
-        {/* ২. চিপস/ট্যাগস পার্ট (Flex Wrap ব্যবহার করা হয়েছে যাতে রেসপনসিভ হয়) */}
+        {/* ২. চিপস/ট্যাগস পার্ট */}
         <div className="flex flex-wrap gap-2.5 mb-8">
           {/* লোকেশন ট্যাগ */}
           <div className="inline-flex items-center gap-1.5 bg-[#1a1a1a] text-zinc-300 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium border border-zinc-800/40">
