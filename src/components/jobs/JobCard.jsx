@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function JobCard({ job = {} }) {
@@ -115,7 +116,10 @@ export default function JobCard({ job = {} }) {
 
       {/* ৩. অ্যাকশন পার্ট: Apply Now বাটন */}
       <div>
-        <button className="inline-flex items-center gap-2 text-white hover:text-zinc-300 font-medium text-base md:text-lg transition-colors group">
+        <Link
+          href={`/jobs/${job._id}`}
+          className="inline-flex items-center gap-2 text-white hover:text-zinc-300 font-medium text-base md:text-lg transition-colors group"
+        >
           Apply Now
           <svg
             className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-200"
@@ -130,7 +134,7 @@ export default function JobCard({ job = {} }) {
               d="M14 5l7 7m0 0l-7 7m7-7H3"
             />
           </svg>
-        </button>
+        </Link>
       </div>
     </div>
   );
