@@ -5,12 +5,14 @@ import { Input, Button, Card, Link, Spinner } from "@heroui/react";
 import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { signUp } from "../../../lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 // import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,7 +67,7 @@ export default function SignUpPage() {
         toast.success(`Welcome ${data.user.name}! Account created.`);
 
         setTimeout(() => {
-          router.push("/signin");
+          router.push(redirectTo);
           router.refresh();
         }, 2000);
       }
@@ -201,7 +203,7 @@ export default function SignUpPage() {
 
             <p className="text-center text-small text-default-500 mt-2">
               Already have an account?{" "}
-              <Link href="/signin" size="sm">
+              <Link href={`/signin?redirect=${redirectTo}`} size="sm">
                 Sign In Here!
               </Link>
             </p>

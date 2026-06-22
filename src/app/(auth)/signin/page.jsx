@@ -3,10 +3,12 @@ import { Eye, EyeSlash } from "@gravity-ui/icons";
 import { Button, Card, Input, Spinner, Link } from "@heroui/react";
 import React, { useState } from "react";
 import { signIn } from "../../../lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 const SignInPage = () => {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ const SignInPage = () => {
         toast.success(`Welcome ${data.user.name}!`);
 
         setTimeout(() => {
-          window.location.href = "/";
+          window.location.href = redirectTo;
           router.refresh();
         }, 2000);
       }
@@ -124,7 +126,7 @@ const SignInPage = () => {
 
             <p className="text-center text-small text-default-500 mt-2">
               Create a new account?{" "}
-              <Link href="/signup" size="sm">
+              <Link href={`/signup?redirect=${redirectTo}`} size="sm">
                 Click Here!
               </Link>
             </p>

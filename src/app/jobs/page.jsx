@@ -17,7 +17,6 @@ export default async function PublicJobsPage() {
   return (
     <>
       <Navbar />
-
       <JobContainer initialJobs={jobsData} />
     </>
   );
