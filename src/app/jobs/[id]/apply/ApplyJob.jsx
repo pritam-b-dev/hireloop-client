@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import { Button, Input, Card, Spinner, Label, TextArea } from "@heroui/react";
 import toast from "react-hot-toast";
+import { submitApplication } from "../../../../lib/actions/applications";
 
-const ApplyJob = ({ job }) => {
+const ApplyJob = ({ job, applicant }) => {
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
+    fullName: applicant?.name || "",
+    email: applicant?.email || "",
+    phone: applicant?.phone || "",
     resumeLink: "",
     portfolioLink: "",
     coverLetter: "",
@@ -26,30 +28,26 @@ const ApplyJob = ({ job }) => {
     e.preventDefault();
     setLoading(true);
 
+    // সব ডাটা একসাথে প্যাক করা হলো
     const payload = {
       jobId: job?._id || job?.id,
+      applicantId: applicant?._id || applicant?.id,
+      jobTItle: job?.jobTitle,
+      companyName: job?.companyName,
       ...formData,
     };
 
-    console.log("Application Payload:", payload);
+    console.log("Application Payload with Applicant Info:", payload);
 
     try {
-      /*
-      const res = await fetch("/api/applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload), // এখানে সম্পূর্ণ ডাটা আইডিসহ পাঠানো হচ্ছে
-      });
-      */
+      const res = await submitApplication(payload);
 
-      // ডামি সাকসেস স্টেট (টেস্টিং এর জন্য)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       toast.success("Application submitted successfully!");
 
       setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
+        fullName: applicant?.name || "",
+        email: applicant?.email || "",
+        phone: applicant?.phone || "",
         resumeLink: "",
         portfolioLink: "",
         coverLetter: "",
@@ -65,7 +63,7 @@ const ApplyJob = ({ job }) => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-12 text-zinc-100 font-sans antialiased">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* বামদিকের জব সামারিカード */}
+        {/* বামদিকের জব সামারি কার্ড */}
         <div className="lg:col-span-1 space-y-4">
           <Card className="bg-[#121212] border border-zinc-800/60 p-6 rounded-3xl shadow-xl">
             <p className="text-xs text-fuchsia-400 font-semibold tracking-wider uppercase mb-1">
