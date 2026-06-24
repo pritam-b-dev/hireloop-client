@@ -38,13 +38,16 @@ export default function SignUpPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // পাসওয়ার্ড ম্যাচিং চেক
+    // পাসওয়ার্ড ম্যাচিং চেক
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match!");
       return;
     }
 
     setLoading(true);
+
+    // 'formData.role' হবে
+    const plan = formData.role === "seeker" ? "seeker_free" : "recruiter_free";
 
     try {
       // Better-Auth এর সাইন-আপ মেথড
@@ -54,7 +57,8 @@ export default function SignUpPage() {
         name: formData.name,
         image: formData.image,
         role: formData.role,
-        autoSignIn: false, //অটো সাইন বন্ধ করার জন্য।
+        plan: plan, // 'plan' ফিল্ডটি পাস করে দেওয়া হলো
+        autoSignIn: false, // অটো সাইন বন্ধ করার জন্য
       });
 
       if (error) {
@@ -63,6 +67,7 @@ export default function SignUpPage() {
         setLoading(false);
         return;
       }
+
       if (data) {
         toast.success(`Welcome ${data.user.name}! Account created.`);
 

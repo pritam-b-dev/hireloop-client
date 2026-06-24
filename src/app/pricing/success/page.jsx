@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
-import Link from "next/link"; // 🎯 ড্যাশবোর্ড বা হোমে ব্যাক করার জন্য Next.js Link
+import Link from "next/link";
 import { stripe } from "../../../lib/stripe";
+import { createSubscription } from "../../../lib/actions/subscriptions";
+import { sub } from "motion/react-client";
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
@@ -11,6 +13,7 @@ export default async function Success({ searchParams }) {
   const {
     status,
     customer_details: { email: customerEmail },
+    metadata,
   } = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["line_items", "payment_intent"],
   });
@@ -20,6 +23,12 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === "complete") {
+    const subsInfo = {
+      email: customerEmail,
+      planId: metadata.planId,
+    };
+    const result = await createSubscription(subsInfo);
+
     return (
       <div className="min-h-screen bg-black text-zinc-100 flex items-center justify-center p-4 antialiased font-sans">
         {/* মেইন কার্ড কন্টেইনার */}
@@ -73,7 +82,7 @@ export default async function Success({ searchParams }) {
 
           {/* 🚀 মেইন অ্যাকশন বাটন */}
           <Link
-            href="/" // 🎯 আপনার অ্যাপের মেইন ড্যাশবোর্ড বা হোম পেজের রুট এখানে দিন
+            href="/"
             className="w-full block text-center bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition-all duration-200 shadow-lg shadow-indigo-600/20 active:scale-[0.98]"
           >
             Go to Dashboard

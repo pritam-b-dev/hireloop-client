@@ -7,6 +7,7 @@ import ApplyJob from "./ApplyJob";
 import { getApplicationByApplicant } from "../../../../lib/api/applications";
 
 import Link from "next/link";
+import { getPlanById } from "../../../../lib/api/plans";
 
 const ApplyPage = async ({ params }) => {
   const { id } = await params;
@@ -41,10 +42,7 @@ const ApplyPage = async ({ params }) => {
   );
   const applications = rawApplications || [];
 
-  const plan = {
-    name: "Free",
-    maxApplicationsPerMonth: 3,
-  };
+  const plan = await getPlanById(user?.plan || "seeker_free");
 
   const job = await getJobById(id);
   const isLimitReached = applications.length >= plan.maxApplicationsPerMonth;
