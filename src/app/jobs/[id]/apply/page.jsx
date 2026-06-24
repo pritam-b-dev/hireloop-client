@@ -52,7 +52,7 @@ const ApplyPage = async ({ params }) => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased pb-12 mt-25">
+      <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased pb-12 mt-15">
         <div className="max-w-5xl mx-auto mt-12 px-4">
           <div className="mb-8 p-6 bg-[#121212] border border-zinc-800/60 rounded-3xl shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>

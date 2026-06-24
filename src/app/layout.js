@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       data-theme="dark"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#09090b] text-zinc-100">
         <main>{children}</main>
 
         <Toaster position="top-center" reverseOrder={false} />

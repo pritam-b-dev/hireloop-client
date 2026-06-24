@@ -45,8 +45,8 @@ export default function NavBar() {
   };
 
   return (
-    <div className="fixed top-5 left-0 right-0 z-50 flex justify-center w-full">
-      <div className="w-full max-w-6xl bg-[#222222] border border-zinc-800/60 shadow-2xl backdrop-blur-md rounded-[20px] flex items-center justify-between p-6 relative">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full bg-transparent px-4">
+      <div className="w-full max-w-6xl bg-[#222222] border border-zinc-800/60 shadow-2xl backdrop-blur-md rounded-[20px] flex items-center justify-between p-3 relative">
         {/* লোগো */}
         <div className="flex items-center">
           <Link
