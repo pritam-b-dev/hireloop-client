@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import NavBar from "../../components/NavBar";
 
 const PricingPage = () => {
   // Job Seeker এবং Recruiter ট্যাব সুইচের জন্য স্টেট
   const [activeTab, setActiveTab] = useState("seeker");
 
-  // FAQ অ্যাকোর্ডিয়ন ওপেন/ক্লোজ করার জন্য স্টেট
+  // FAQ অ্যাকোর্ডিয়ন ওপেন/ক্লোজ করার জন্য স্টেট
   const [openFaq, setOpenFaq] = useState(null);
 
   const toggleFaq = (index) => {
@@ -138,7 +139,8 @@ const PricingPage = () => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans antialiased pb-24 mt-15">
+
+      <div className="min-h-screen bg-black text-zinc-100 font-sans antialiased pb-24 mt-15">
         <div className="max-w-6xl mx-auto px-4 pt-16 text-center">
           {/* হেডার সেকশন */}
           <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
@@ -150,7 +152,7 @@ const PricingPage = () => {
             covered.
           </p>
 
-          {/* 🎯 ট্যাব সুইচ টগলার */}
+          {/* ট্যাব সুইচ টগলার */}
           <div className="inline-flex p-1.5 bg-[#121212] border border-zinc-800 rounded-2xl mb-16 shadow-inner">
             <button
               onClick={() => setActiveTab("seeker")}
@@ -174,7 +176,7 @@ const PricingPage = () => {
             </button>
           </div>
 
-          {/* 📊 প্রাইসিং কার্ড গ্রিড */}
+          {/* প্রাইসিং কার্ড গ্রিড */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start text-left mb-24">
             {currentPlans.map((plan, index) => (
               <div
@@ -223,20 +225,21 @@ const PricingPage = () => {
                 </ul>
 
                 {/* অ্যাকশন বাটন */}
-                <button
-                  className={`w-full py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 antialiased ${
+                <Link
+                  href={`/api/checkout?plan=${plan.name.toLowerCase()}`}
+                  className={`w-full block text-center py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 antialiased ${
                     plan.popular
                       ? "bg-indigo-500 hover:bg-indigo-600 text-zinc-950 shadow-lg shadow-indigo-500/10"
                       : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700/50"
                   }`}
                 >
                   {plan.buttonText}
-                </button>
+                </Link>
               </div>
             ))}
           </div>
 
-          {/* ❓ FAQ অ্যাকোর্ডিয়ন সেকশন */}
+          {/* FAQ অ্যাকোর্ডিয়ন সেকশন */}
           <div className="max-w-3xl mx-auto mt-16 text-left">
             <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-2">
               Frequently Asked Questions
