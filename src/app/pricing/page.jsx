@@ -19,6 +19,7 @@ const PricingPage = () => {
   const seekerPlans = [
     {
       name: "Free",
+      id: "seeker_free",
       price: "$0",
       period: "/forever",
       description: "Great for getting started and exploring opportunities.",
@@ -33,6 +34,7 @@ const PricingPage = () => {
     },
     {
       name: "Pro",
+      id: "seeker_pro",
       price: "$19",
       period: "/month",
       description: "Perfect for active job seekers looking for an edge.",
@@ -47,6 +49,7 @@ const PricingPage = () => {
     },
     {
       name: "Premium",
+      id: "seeker_premium",
       price: "$39",
       period: "/month",
       description: "The ultimate package for maximum visibility and speed.",
@@ -66,6 +69,7 @@ const PricingPage = () => {
   const recruiterPlans = [
     {
       name: "Free",
+      id: "recruiter_free",
       price: "$0",
       period: "/forever",
       description:
@@ -80,6 +84,7 @@ const PricingPage = () => {
     },
     {
       name: "Growth",
+      id: "recruiter_growth",
       price: "$49",
       period: "/month",
       description: "Best for growing teams with consistent hiring needs.",
@@ -94,6 +99,7 @@ const PricingPage = () => {
     },
     {
       name: "Enterprise",
+      id: "recruiter_enterprise",
       price: "$149",
       period: "/month",
       description: "For large organizations demanding full power and branding.",
@@ -225,16 +231,22 @@ const PricingPage = () => {
                 </ul>
 
                 {/* অ্যাকশন বাটন */}
-                <Link
-                  href={`/api/checkout?plan=${plan.name.toLowerCase()}`}
-                  className={`w-full block text-center py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 antialiased ${
-                    plan.popular
-                      ? "bg-indigo-500 hover:bg-indigo-600 text-zinc-950 shadow-lg shadow-indigo-500/10"
-                      : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700/50"
-                  }`}
-                >
-                  {plan.buttonText}
-                </Link>
+                <form action="/api/checkout_sessions" method="POST">
+                  <input type="hidden" name="plan_id" value={plan.id} />
+                  <section>
+                    <button
+                      type="submit"
+                      role="link"
+                      className={`w-full cursor-pointer block text-center py-3 px-4 rounded-xl text-sm font-bold transition-all duration-200 antialiased ${
+                        plan.popular
+                          ? "bg-indigo-500 hover:bg-indigo-600 text-zinc-950 shadow-lg shadow-indigo-500/10"
+                          : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700/50"
+                      }`}
+                    >
+                      Checkout
+                    </button>
+                  </section>
+                </form>
               </div>
             ))}
           </div>
