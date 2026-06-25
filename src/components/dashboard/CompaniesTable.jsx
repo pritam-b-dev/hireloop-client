@@ -87,7 +87,7 @@ const CompaniesTable = ({ initialCompanies = [] }) => {
                     Company Name
                   </Table.Column>
                   <Table.Column className="bg-[#1c1c1f] text-zinc-400 font-semibold text-xs tracking-wide py-4 border-b border-zinc-800/80">
-                    Recruiter ID
+                    Jobs Posted
                   </Table.Column>
                   <Table.Column className="bg-[#1c1c1f] text-zinc-400 font-semibold text-xs tracking-wide py-4 border-b border-zinc-800/80">
                     Industry
@@ -132,8 +132,14 @@ const CompaniesTable = ({ initialCompanies = [] }) => {
                       </Table.Cell>
 
                       {/* রিক্রুটার আইডি */}
-                      <Table.Cell className="text-zinc-400 text-sm">
-                        {company.recruiterId?.substring(0, 10)}...
+                      <Table.Cell>
+                        <Chip
+                          variant="flat"
+                          size="sm"
+                          className="bg-zinc-800 text-zinc-300"
+                        >
+                          {company.jobCount || 0} Jobs
+                        </Chip>
                       </Table.Cell>
 
                       {/* ইন্ডাস্ট্রি */}
