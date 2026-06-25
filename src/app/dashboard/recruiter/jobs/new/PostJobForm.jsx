@@ -30,24 +30,34 @@ export default function PostJobForm({ company }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    setIsLoading(true);
-
     const formData = new FormData(form);
 
+    // ১. স্যালারি ভ্যালিডেশন (Human Error Protection)
+    const minSalary = Number(formData.get("salaryMin"));
+    const maxSalary = Number(formData.get("salaryMax"));
+
+    if (minSalary > maxSalary) {
+      toast.warning("Minimum salary cannot be greater than maximum salary!");
+      return;
+    }
+
+    setIsLoading(true);
+    const rawFormData = Object.fromEntries(formData);
+
+    // ২. রিমোট জব এবং লোকেশন ফিক্সিং
     const finalJobData = {
-      ...Object.fromEntries(formData),
+      ...rawFormData,
       isRemote: isRemote,
+      location: isRemote ? "Remote" : rawFormData.location,
       companyId: recruiterCompany._id,
       companyName: recruiterCompany.name,
-      companyLogo: recruiterCompany.logo,
+      companyLogo: recruiterCompany.logo || "",
       status: "active",
     };
 
     try {
-      //সরাসরি fetch-এর বদলে  /lib/action/jobs.js থেকে কল করা হলো এবং সেখানে POST method দিয়ে ডাটা চলে গেল ব্যাকএন্ড হয়ে ডাটাবেজে।
       const result = await createJob(finalJobData);
 
-      // যেহেতু action/jobs.js থেকে res.json() রিটার্ন করা হচ্ছে, তাই result এ আমরা তা পেয়ে যাচ্ছি।
       if (result.insertedId) {
         console.log("Published Job Data:", result);
         toast.success("Job Posted Successfully!");
@@ -64,7 +74,7 @@ export default function PostJobForm({ company }) {
     }
   };
 
-  // স্টাইলিং
+  // স্টাইলিং ক্লাসেস
   const labelClass = "text-zinc-300 font-medium text-sm mb-1 block";
   const inputClass =
     "bg-[#222222] border border-zinc-700/50 hover:border-zinc-600 rounded-xl text-white shadow-none focus:border-zinc-500 outline-none transition-colors w-full h-10 px-3";
@@ -73,6 +83,7 @@ export default function PostJobForm({ company }) {
   const selectClass =
     "bg-[#222222] border border-zinc-700/50 hover:border-zinc-600 rounded-xl text-white outline-none focus:border-zinc-500 transition-colors w-full h-10 px-3 cursor-pointer";
 
+  // কন্ডিশন ১: কোম্পানি প্রোফাইল তৈরিই করা না থাকলে
   if (!recruiterCompany?._id) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
@@ -80,11 +91,38 @@ export default function PostJobForm({ company }) {
           No Company Profile Found
         </h3>
         <p className="text-zinc-400 max-w-md text-sm">
-          Creat a company profile first to post a job!
+          Create a company profile first to post a job!
         </p>
       </div>
     );
   }
+
+  // কন্ডিশন ২: কোম্পানি যদি Approved না হয়ে Pending বা Rejected অবস্থায় থাকে (Security Lock)
+  if (recruiterCompany.status !== "Approved") {
+    return (
+      <div className="max-w-xl w-full mx-auto bg-[#18181B] rounded-2xl border border-zinc-800/50 p-8 text-center my-20 shadow-2xl">
+        <CircleInfo
+          width={44}
+          height={44}
+          className="text-amber-500 mx-auto mb-4"
+        />
+        <h3 className="text-xl font-semibold text-white mb-2">
+          Approval Pending
+        </h3>
+        <p className="text-zinc-400 text-sm leading-relaxed max-w-sm mx-auto">
+          Your company profile <strong>"{recruiterCompany.name}"</strong> is
+          currently status: <strong>{recruiterCompany.status}</strong>. You can
+          publish job openings once the admin approves your company.
+        </p>
+      </div>
+    );
+  }
+
+  // ডাইনামিক স্ট্যাটাস ব্যাজ কালার (ইন কেস ফিউচারে এটা ওপেন করো)
+  const statusBadgeClass =
+    recruiterCompany.status === "Approved"
+      ? "text-green-500 bg-green-500/10 border-green-500/20"
+      : "text-amber-500 bg-amber-500/10 border-amber-500/20";
 
   return (
     <div className="max-w-4xl w-full mx-auto bg-[#18181B] rounded-2xl border border-zinc-800/50 overflow-hidden text-white font-sans shadow-2xl my-10">
@@ -116,8 +154,14 @@ export default function PostJobForm({ company }) {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-green-500 bg-green-500/10 px-3 py-1 rounded-full text-xs font-medium border border-green-500/20">
-            <Check width={14} height={14} />
+          <div
+            className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${statusBadgeClass}`}
+          >
+            {recruiterCompany.status === "Approved" ? (
+              <Check width={14} height={14} />
+            ) : (
+              <CircleInfo width={14} height={14} />
+            )}
             {recruiterCompany.status}
           </div>
         </div>
@@ -141,7 +185,6 @@ export default function PostJobForm({ company }) {
               <FieldError className="text-red-500 text-xs mt-1" />
             </TextField>
 
-            {/* নেটিভ HTML সিলেক্ট */}
             <div className="flex flex-col">
               <label className={labelClass}>
                 Job Category <span className="text-red-500">*</span>
@@ -190,15 +233,15 @@ export default function PostJobForm({ company }) {
 
           {/* Salary Range */}
           <Fieldset.Group className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-            <TextField isRequired name="salaryMin" type="number">
+            <TextField isRequired name="salaryMin">
               <Label className={labelClass}>Min Salary</Label>
-              <Input placeholder="0" className={inputClass} />
+              <Input type="number" placeholder="0" className={inputClass} />
               <FieldError className="text-red-500 text-xs mt-1" />
             </TextField>
 
-            <TextField isRequired name="salaryMax" type="number">
+            <TextField isRequired name="salaryMax">
               <Label className={labelClass}>Max Salary</Label>
-              <Input placeholder="0" className={inputClass} />
+              <Input type="number" placeholder="0" className={inputClass} />
               <FieldError className="text-red-500 text-xs mt-1" />
             </TextField>
 

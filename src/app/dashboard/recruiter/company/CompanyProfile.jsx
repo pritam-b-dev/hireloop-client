@@ -100,6 +100,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
       ...rawCompanyData,
       logo: logoUrl || "https://placehold.co/150?text=No+Logo",
       recruiterId: recruiter.id,
+      status: "Pending",
     };
 
     try {
