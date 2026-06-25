@@ -44,6 +44,18 @@ export default function NavBar() {
     setIsOpen(false);
   };
 
+  const dashboardLinks = {
+    seeker: "/dashboard/seeker",
+    recruiter: "/dashboard/recruiter",
+  };
+
+  if (session?.user?.email) {
+    menuItems.push({
+      label: "Dashboard",
+      href: dashboardLinks[session?.user?.role || "seeker"],
+    });
+  }
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full bg-transparent px-4">
       <div className="w-full max-w-6xl bg-[#222222] border border-zinc-800/60 shadow-2xl backdrop-blur-md rounded-[20px] flex items-center justify-between p-3 relative">
