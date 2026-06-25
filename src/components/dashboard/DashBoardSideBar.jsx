@@ -10,6 +10,9 @@ import {
   Bookmark,
   FileText,
   CreditCard,
+  Persons,
+  Factory,
+  Briefcase,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Link from "next/link";
@@ -63,9 +66,43 @@ export async function DashBoardSideBar() {
     },
   ];
 
+  const adminNavLinks = [
+    {
+      icon: House,
+      href: "/dashboard/admin",
+      label: "Dashboard",
+    },
+    {
+      icon: Persons,
+      href: "/dashboard/admin/users",
+      label: "Users",
+    },
+    {
+      icon: Factory,
+      href: "/dashboard/admin/companies",
+      label: "Companies",
+    },
+    {
+      icon: Briefcase,
+      href: "/dashboard/admin/jobs",
+      label: "Jobs",
+    },
+    {
+      icon: CreditCard,
+      href: "/dashboard/admin/payments",
+      label: "Payments",
+    },
+    {
+      icon: Gear,
+      href: "/dashboard/admin/settings",
+      label: "Settings",
+    },
+  ];
+
   const navLinksMap = {
     seeker: seekerNavLinks,
     recruiter: recruiterNavLinks,
+    admin: adminNavLinks,
   };
   const navItems = navLinksMap[user.role || "seeker"];
 
