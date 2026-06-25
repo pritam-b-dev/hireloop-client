@@ -34,6 +34,7 @@ const ApplyJob = ({ job, applicant }) => {
       applicantId: applicant?._id || applicant?.id,
       jobTItle: job?.jobTitle,
       companyName: job?.companyName,
+      status: "applied",
       ...formData,
     };
 
