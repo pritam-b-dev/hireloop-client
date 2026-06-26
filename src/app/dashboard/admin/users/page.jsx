@@ -1,11 +1,9 @@
-import React from "react";
+import UserTableClient from "../../../../components/dashboard/UserTableClient";
 import { getUserList } from "../../../../lib/api/users";
 
 const AdminUsersPage = async () => {
   const data = await getUserList();
-  const users = data.users;
-  console.log(users);
-  return <div>users total: {users.length}</div>;
+  return <UserTableClient initialUsers={data.users} />;
 };
 
 export default AdminUsersPage;
