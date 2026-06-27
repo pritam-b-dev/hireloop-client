@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Label, Input, Select, ListBox } from "@heroui/react";
 
-export default function JobFilterBar({ onFilterChange }) {
-  const [search, setSearch] = useState("");
-  const [jobType, setJobType] = useState("all");
-  const [category, setCategory] = useState("all");
-
+export default function JobFilterBar({ onFilterChange, initialValues }) {
+  const [search, setSearch] = useState(initialValues?.search || "");
+  const [jobType, setJobType] = useState(initialValues?.jobType || "all");
+  const [category, setCategory] = useState(initialValues?.category || "all");
   // ডাটার সাথে ম্যাচ রেখে স্টেট পরিবর্তনের ইফেক্ট
   useEffect(() => {
     onFilterChange({

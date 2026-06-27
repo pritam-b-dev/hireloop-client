@@ -4,20 +4,22 @@ import { getJobs } from "../../lib/api/jobs";
 import Navbar from "../../components/AuthNav";
 import JobContainer from "../../components/jobs/JobContainer";
 
-export default async function PublicJobsPage() {
-  let jobsData = [];
+export default async function PublicJobsPage({ searchParams }) {
+  const searchQuery = await searchParams;
+
+  let jobs = [];
 
   try {
-    jobsData = (await getJobs()) || [];
+    jobs = (await getJobs()) || [];
   } catch (error) {
     console.error("Error loading jobs:", error);
-    jobsData = [];
+    jobs = [];
   }
 
   return (
     <>
       <Navbar />
-      <JobContainer initialJobs={jobsData} />
+      <JobContainer searchQuery={searchQuery} jobs={jobs} />
     </>
   );
 }
