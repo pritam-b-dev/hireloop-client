@@ -9,8 +9,11 @@ export default async function PublicJobsPage({ searchParams }) {
 
   let jobs = [];
 
+  const querySearch = new URLSearchParams(searchQuery);
+  const queryString = querySearch.toString();
+
   try {
-    jobs = (await getJobs()) || [];
+    jobs = (await getJobs(queryString)) || [];
   } catch (error) {
     console.error("Error loading jobs:", error);
     jobs = [];
